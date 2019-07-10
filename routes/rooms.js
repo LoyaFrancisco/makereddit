@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
+// Add this line to require the Posts controller
+const posts = require('./posts');
 
 const auth = require('./helpers/auth');
 const Room = require('../models/room');
+
+// Add this line:
+const Post = require('../models/post');
+
+
 
 // Rooms index
 router.get('/', (req, res, next) => {
@@ -27,7 +34,11 @@ router.get('/:id', auth.requireLogin, (req, res, next) => {
   Room.findById(req.params.id, function(err, room) {
     if(err) { console.error(err) };
 
-    res.render('rooms/show', { room: room });
+    Post.find({ room: room }, function(err, posts) {
+      if(err) { console.error(err) };
+
+      res.render('rooms/show', { room: room, posts: posts });
+    });
   });
 });
 
@@ -60,5 +71,8 @@ router.post('/', auth.requireLogin, (req, res, next) => {
     return res.redirect('/rooms');
   });
 });
+
+// Add this line to nest the routes
+router.use('/:roomId/posts', posts)
 
 module.exports = router;

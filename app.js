@@ -51,8 +51,9 @@ app.use(function(err, req, res, next) {
 
 // Database setup
 // go to cluster 0, connect, and "full driver example"
-const mongoose = require('mongoose'); //this is an error, we're not using mongoose anymore, but 'mongodb'
-const mongoURI = 'mongodb://<username>:<password>@<address>'
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb+srv://ms-user:makeschool@makereddit1-kreer.mongodb.net/test?retryWrites=true&w=majority'
+
 
 mongoose.connect(mongoURI)
 mongoose.Promise = global.Promise;
